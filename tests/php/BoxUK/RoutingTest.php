@@ -4,7 +4,7 @@ namespace BoxUK;
 
 require_once 'tests/php/bootstrap.php';
 
-class HelperTest extends \PHPUnit_Framework_TestCase {
+class RouterTest extends \PHPUnit_Framework_TestCase {
 
     private $routing, $routesFile, $req;
     

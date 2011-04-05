@@ -68,7 +68,7 @@ This would then send URLs like /private/admin/home to the _admin_ controller, wi
 
 ## The Helper
 
-You are free to instantiate and set upp all the objects manually if you want, but the easiest way to do it is through the helper class provided.  This is used in all the examples.
+You are free to instantiate and set upp all the objects manually if you want, but the easiest way to do it is through the helper class provided (BoxUK\Routing).  This is used in all the examples.
 
 ## The Router
 
@@ -78,10 +78,10 @@ The router forms the input part of the system.  You initialise the router with y
 $req = new BoxUK\Routing\Input\StandardRequest();
 $url = ‘/some/url’;
 
-$helper = new BoxUK\Routing\Helper();
-$helper->setRoutesFile( ‘/path/to/routes.txt’ );
+$routing = new BoxUK\Routing();
+$routing->setRoutesFile( ‘/path/to/routes.txt’ );
 
-$router = $helper->getRouter();
+$router = $routing->getRouter();
 $router->process( $req, $url )
 </pre>
 
@@ -96,7 +96,7 @@ The output filter allows us to transform our output using the routing informatio
 <pre>
 $html = ‘&lt;a href=”server.php?controller=cars&action=show&brand=ford”&gt;Show Ford&lt;/a&gt;’;
 
-$filter = $helper->getFilter();
+$filter = $routing->getFilter();
 $filter->process( $html );
 </pre>
 
@@ -129,5 +129,7 @@ The rewriting object needs to be created and provided for the filter demonstrate
 The library is fully unit tested.  To run these tests just use phpunit...
 
 <pre>
+phing test
+# or
 phpunit tests/php
 </pre>
