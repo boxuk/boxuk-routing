@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project name="boxuk-routing" basedir="." default="test">
+
+    <target name="test">
+        <exec command="phpunit --testdox --log-junit log/phpunit.xml tests/php" checkReturn="true" passthru="true" />
+    </target>
+
+    <target name="coverage">
+        <delete dir="log/coverage" />
+        <exec command="phpunit --coverage-html=log/coverage tests/php/" passthru="true" checkReturn="true" />
+    </target>
+
+</project>
