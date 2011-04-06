@@ -1,4 +1,3 @@
-
 # Box UK Routing
 
 This library provides an easy way to add highly configurable routing support to your Front Controller based application.  It comes with an input router to pass control to your application classes, and an output filter that transforms HTML to use these routes automatically.  All of this is then configured through one easy to read routing file.
@@ -9,7 +8,7 @@ This library provides an easy way to add highly configurable routing support to 
 
 ## The Routing File
 
-The routing file is designed to be as easy to read as possible, and simply maps URL's on the left side, so the controller to handle them on the right.  Here's a simple example...
+The routing file is designed to be as easy to read as possible, and simply maps URL's on the left side, to the controller to handle them on the right.  Here's a simple example...
 
 <pre>
 /user/:num = user:show( id )
@@ -51,7 +50,7 @@ As a shorthand (and a neat way of keeping related specs together) you can use co
 [*]
 </pre>
 
-The above example shows a two routes defined for a controller called 'foo'.  As you can see it's no longer required to specify *foo* for each route. The controller block is then ended with a star (indicating any controller can now be used in routes)
+The above example shows two routes defined for a controller called 'foo'.  As you can see it's no longer required to specify *foo* for each route. The controller block is then ended with a star (indicating any controller can now be used in routes)
 
 ### Base Paths
 
@@ -68,11 +67,11 @@ This would then send URLs like /private/admin/home to the _admin_ controller, wi
 
 ## The Helper
 
-You are free to instantiate and set upp all the objects manually if you want, but the easiest way to do it is through the helper class provided (BoxUK\Routing).  This is used in all the examples.
+You are free to instantiate and set upp all the objects manually if you want, but the easiest way to do it is through the helper class provided (BoxUK\\Routing).  This is used in all the examples.
 
 ## The Router
 
-The router forms the input part of the system.  You initialise the router with your routes, then pass it the requested URL along with a request object to populate with the data extracted from the matched route.
+The router forms the input part of the system.  You instantiate the router using the configured helper, then pass it the requested URL along with a request object to populate with the data extracted from the matched route.
 
 <pre>
 $req = new BoxUK\Routing\Input\StandardRequest();
@@ -85,9 +84,9 @@ $router = $routing->getRouter();
 $router->process( $req, $url )
 </pre>
 
-You can see we need to use a parser class to extract routing information from our routes file.  When the process method has completed the request object will contain the information from the route (eg. controller = 'foo')
+When the process method has completed the request object will contain the information from the route (eg. controller = 'foo')
 
-The example above uses a default request object provided with this library, but you will most likely want to provide your own if you already have a request object abstraction in your application (just implement BoxUK\Routing\Input\Request)
+The example above uses a default request object provided with this library, but you will most likely want to provide your own if you already have a request object abstraction in your application (just implement BoxUK\\Routing\\Input\\Request)
 
 ## The Filter
 
@@ -122,11 +121,11 @@ Forms actions can also be transformed by using hidden input fields to specify yo
 
 ## The Rewriter
 
-The rewriting object needs to be created and provided for the filter demonstrated above, but you can use this alone if you would just like to rewrite URLs (when redirecting the user for example).
+Internally, the output filter uses a rewriting object to transform raw URLs into clean urls.  We can fetch this from the helper or instantiate it ourselves to use it alone.  This will be handy if you would just like to rewrite URLs individually (when redirecting the user for example).
 
 ## Unit Tests
 
-The library is fully unit tested.  To run these tests just use phpunit...
+The library is fully unit tested.  To run these tests just use ping or phpunit...
 
 <pre>
 phing test
