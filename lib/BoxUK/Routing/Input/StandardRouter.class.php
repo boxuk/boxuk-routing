@@ -146,17 +146,18 @@ class StandardRouter implements Router {
         $request->setValue( 'action', $request->getValue('action',$specification->getAction()) );
 
         $routeParams = $specification->getParameters();
-        $index = 0;
+        $index = 1;
 
         foreach ( $routeParams as $name => $default ) {
 
-            $valueIndex = $index++ + 1;
-            $value = isset($matches[$valueIndex]) && $matches[$valueIndex]
-                ? urldecode( $matches[$valueIndex] )
+            $value = isset($matches[$index]) && $matches[$index]
+                ? urldecode( $matches[$index] )
                 : $default;
 
             $request->setValue( $name, $value );
 
+            $index++;
+            
         }
 
     }
