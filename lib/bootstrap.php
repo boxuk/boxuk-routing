@@ -4,7 +4,7 @@ if ( !function_exists('boxuk_autoload') ) {
     function boxuk_autoload( $rootDir ) {
         spl_autoload_register(function( $className ) use ( $rootDir ) {
             $file = sprintf(
-                '%s/%s.class.php',
+                '%s/%s.php',
                 $rootDir,
                 str_replace( '\\', '/', $className )
             );
