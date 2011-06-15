@@ -2,7 +2,7 @@
 
 namespace BoxUK;
 
-use \BoxUK\Routing\Configuration,
+use \BoxUK\Routing\Config,
     \BoxUK\Routing\Output\StandardFilter,
     \BoxUK\Routing\StandardRewriter,
     \BoxUK\Routing\Specification\CachingParser;
@@ -23,23 +23,23 @@ class Routing {
     private $routes;
     
     /**
-     * @var \BoxUK\Routing\Configuration
+     * @var \BoxUK\Routing\Config
      */
     private $config;
     
     /**
      * Creates a new instance
      * 
-     * @param \BoxUK\Routing\Configuration $configuration
+     * @param \BoxUK\Routing\Config $config
      */
-    public function __construct(Configuration $configuration) {
-        $this->config = $configuration;
+    public function __construct(Config $config) {
+        $this->config = $config;
     }
     
     /**
      * Returns the configuration object used by the library
      * 
-     * @return \BoxUK\Routing\Configuration
+     * @return \BoxUK\Routing\Config
      */
     public function getConfiguration() {
         return $this->config;
@@ -48,9 +48,9 @@ class Routing {
     /**
      * Sets the configuration object used by the library
      *
-     * @param \BoxUK\Routing\Configuration $config 
+     * @param \BoxUK\Routing\Config $config 
      */
-    public function setConfiguration(Configuration $config) {
+    public function setConfiguration(Config $config) {
         $this->config = $config;
     }
     

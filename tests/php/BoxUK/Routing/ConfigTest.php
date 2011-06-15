@@ -4,12 +4,12 @@ namespace BoxUK\Routing;
 
 require_once 'tests/php/bootstrap.php';
 
-class ConfigurationTest extends \PHPUnit_Framework_TestCase {
+class ConfigTest extends \PHPUnit_Framework_TestCase {
     
     private $config, $invalidStrings;
     
     public function setUp() {
-        $this->config = new Configuration;
+        $this->config = new Config;
         $this->invalidStrings = array(1, null, false, true);
     }
     

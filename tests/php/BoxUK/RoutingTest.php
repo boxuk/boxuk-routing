@@ -9,7 +9,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
     private $config, $routing, $routesFile, $req;
     
     public function setUp() {
-        $this->config = new Routing\Configuration;
+        $this->config = new Routing\Config;
         $this->routing = new Routing( $this->config );
         $this->routesFile = getcwd() . '/tests/resources/routes.spec';
         $this->req = new \BoxUK\Routing\Input\StandardRequest();

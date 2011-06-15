@@ -77,7 +77,7 @@ The router forms the input part of the system.  You instantiate the router using
 $req = new BoxUK\Routing\Input\StandardRequest();
 $url = ‘/some/url’;
 
-$config = new BoxUK\Routing\Configuration;
+$config = new BoxUK\Routing\Config;
 $config->setRoutesFile( ‘/path/to/routes.txt’ );
 
 $routing = new BoxUK\Routing( $config );

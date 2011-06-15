@@ -10,7 +10,7 @@ namespace BoxUK\Routing;
  * @link http://github.com/boxuk/boxuk-routing
  * @since 1.1
  */
-class Configuration extends \PHPUnit_Framework_TestCase {
+class Config {
     
     /**
      * @var string
