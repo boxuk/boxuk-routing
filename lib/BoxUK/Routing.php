@@ -32,25 +32,7 @@ class Routing {
      * 
      * @param \BoxUK\Routing\Config $config
      */
-    public function __construct(Config $config = null) {
-        $this->config = $config;
-    }
-    
-    /**
-     * Returns the configuration object used by the library
-     * 
-     * @return \BoxUK\Routing\Config
-     */
-    public function getConfig() {
-        return $this->config;
-    }
-
-    /**
-     * Sets the configuration object used by the library
-     *
-     * @param \BoxUK\Routing\Config $config 
-     */
-    public function setConfig(Config $config) {
+    public function __construct( Config $config ) {
         $this->config = $config;
     }
     
