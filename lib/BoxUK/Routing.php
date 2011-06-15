@@ -2,6 +2,11 @@
 
 namespace BoxUK;
 
+use \BoxUK\Routing\Configuration,
+    \BoxUK\Routing\Output\StandardFilter,
+    \BoxUK\Routing\StandardRewriter,
+    \BoxUK\Routing\Specification\CachingParser;
+
 /**
  * Helper class for creating the main objects like the router, filter, etc...
  *
@@ -13,74 +18,42 @@ namespace BoxUK;
 class Routing {
 
     /**
-     * @var string
-     */
-    private $routesFile;
-
-    /**
-     * @var string
-     */
-    private $extension;
-
-    /**
      * @var array Cache of routing information
      */
     private $routes;
-
+    
     /**
-     * @var string
+     * @var \BoxUK\Routing\Configuration
      */
-    private $siteDomain;
-
+    private $config;
+    
     /**
-     * @var string
+     * Creates a new instance
+     * 
+     * @param \BoxUK\Routing\Configuration $configuration
      */
-    private $siteWebRoot = '/';
-
+    public function __construct(Configuration $configuration) {
+        $this->config = $configuration;
+    }
+    
     /**
-     * Sets the path to the routes file to use
-     *
-     * @param string $routesFile
+     * Returns the configuration object used by the library
+     * 
+     * @return \BoxUK\Routing\Configuration
      */
-    public function setRoutesFile( $routesFile ) {
-        
-        $this->routesFile = $routesFile;
-
+    public function getConfiguration() {
+        return $this->config;
     }
 
     /**
-     * Sets the URL extension to use
+     * Sets the configuration object used by the library
      *
-     * @param string $extension
+     * @param \BoxUK\Routing\Configuration $config 
      */
-    public function setExtension( $extension ) {
-        
-        $this->extension = $extension;
-
+    public function setConfiguration(Configuration $config) {
+        $this->config = $config;
     }
-
-    /**
-     * Sets the site domain to use
-     *
-     * @param string $siteDomain
-     */
-    public function setSiteDomain( $siteDomain ) {
-        
-        $this->siteDomain = $siteDomain;
-
-    }
-
-    /**
-     * Sets the site web root to use
-     *
-     * @param string $siteWebRoot
-     */
-    public function setSiteWebRoot( $siteWebRoot ) {
-
-        $this->siteWebRoot = $siteWebRoot;
-        
-    }
-
+    
     /**
      * Creates and returns a routing object
      * 
@@ -91,8 +64,8 @@ class Routing {
         list( $routeSpecs, $routeTypes ) = $this->getRoutes();
 
         $router = new \BoxUK\Routing\Input\StandardRouter();
-        $router->setExtension( $this->extension );
-        $router->setSiteWebRoot( $this->siteWebRoot );
+        $router->setExtension( $this->config->getExtension() );
+        $router->setSiteWebRoot( $this->config->getSiteWebRoot() );
         $router->init( $routeSpecs, $routeTypes );
 
         return $router;
@@ -106,7 +79,7 @@ class Routing {
      */
     public function getFilter() {
 
-        return new \BoxUK\Routing\Output\StandardFilter(
+        return new StandardFilter(
             $this->getRewriter()
         );
 
@@ -121,9 +94,14 @@ class Routing {
     
         list( $routeSpecs, $routeTypes ) = $this->getRoutes();
 
-        $rewriter = new \BoxUK\Routing\StandardRewriter();
-        $rewriter->setExtension( $this->extension );
-        $rewriter->init( $routeSpecs, $routeTypes, $this->siteDomain, $this->siteWebRoot );
+        $rewriter = new StandardRewriter();
+        $rewriter->setExtension( $this->config->getExtension() );
+        $rewriter->init( 
+            $routeSpecs, 
+            $routeTypes, 
+            $this->config->getSiteDomain(), 
+            $this->config->getSiteWebRoot() 
+        );
 
         return $rewriter;
 
@@ -138,10 +116,18 @@ class Routing {
     protected function getRoutes() {
 
         if ( !$this->routes ) {
+            
+            $routesFile = $this->config->getRoutesFile();
 
-            if ( $this->routesFile ) {
-                $parser = new \BoxUK\Routing\Specification\CachingParser();
-                $this->routes = $parser->parseFile( $this->routesFile );
+            if ( $routesFile ) {
+                $parser = new CachingParser();
+                
+                $cacheDir = $this->config->getCacheDirectory();
+                if($cacheDir) {
+                    $parser->setCacheDirectory($cacheDir);
+                }
+                
+                $this->routes = $parser->parseFile( $routesFile );
             }
 
             else {
