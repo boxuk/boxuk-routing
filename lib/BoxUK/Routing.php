@@ -32,7 +32,7 @@ class Routing {
      * 
      * @param \BoxUK\Routing\Config $config
      */
-    public function __construct(Config $config) {
+    public function __construct(Config $config = null) {
         $this->config = $config;
     }
     
@@ -41,7 +41,7 @@ class Routing {
      * 
      * @return \BoxUK\Routing\Config
      */
-    public function getConfiguration() {
+    public function getConfig() {
         return $this->config;
     }
 
@@ -50,7 +50,7 @@ class Routing {
      *
      * @param \BoxUK\Routing\Config $config 
      */
-    public function setConfiguration(Config $config) {
+    public function setConfig(Config $config) {
         $this->config = $config;
     }
     
