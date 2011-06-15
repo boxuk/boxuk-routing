@@ -2,4 +2,4 @@
 
 include __DIR__ . '/../../lib/bootstrap.php';
 
-boxuk_autoload( __DIR__ );
+BoxUK\Routing\autoload( __DIR__ );

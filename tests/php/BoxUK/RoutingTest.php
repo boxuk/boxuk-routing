@@ -6,10 +6,11 @@ require_once 'tests/php/bootstrap.php';
 
 class RouterTest extends \PHPUnit_Framework_TestCase {
 
-    private $routing, $routesFile, $req;
+    private $config, $routing, $routesFile, $req;
     
     public function setUp() {
-        $this->routing = new Routing();
+        $this->config = new Routing\Config;
+        $this->routing = new Routing( $this->config );
         $this->routesFile = getcwd() . '/tests/resources/routes.spec';
         $this->req = new \BoxUK\Routing\Input\StandardRequest();
     }
@@ -39,14 +40,14 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testSiteWebRootDefaultsToASlash() {
-        $this->routing->setRoutesFile( $this->routesFile );
+        $this->config->setRoutesFile( $this->routesFile );;
         $url = 'server.php?controller=user&action=show&id=123';
         $rewriter = $this->routing->getRewriter();
         $this->assertEquals( '/user/123', $rewriter->rewrite($url) );
     }
 
     public function testRoutesFileCanBeSpecifiedWithHelperAndIsUsedByAllObjects() {
-        $this->routing->setRoutesFile( $this->routesFile );
+        $this->config->setRoutesFile( $this->routesFile );
         // router
         $router = $this->routing->getRouter();
         $route = $router->process( $this->req, '/user/123' );
@@ -63,8 +64,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testExtensionCanBeSpecifiedAndIsUsedByAllObjects() {
-        $this->routing->setRoutesFile( $this->routesFile );
-        $this->routing->setExtension( 'html' );
+        $this->config->setRoutesFile( $this->routesFile );
+        $this->config->setExtension( 'html' );
         // router
         $router = $this->routing->getRouter();
         $route = $router->process( $this->req, '/user/123.html' );
@@ -81,8 +82,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testSiteDomainCanBeSpecifiedAndIsUsedWithRewriterWhenRequested() {
-        $this->routing->setRoutesFile( $this->routesFile );
-        $this->routing->setSiteDomain( 'mysite.com' );
+        $this->config->setRoutesFile( $this->routesFile );
+        $this->config->setSiteDomain( 'mysite.com' );
         // rewriter
         $url = 'server.php?controller=user&action=show&id=123';
         $rewriter = $this->routing->getRewriter();
@@ -90,8 +91,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testSiteWebRootCanBeSpecifiedAndIsUsedWithAllObjects() {
-        $this->routing->setRoutesFile( $this->routesFile );
-        $this->routing->setSiteWebRoot( '/sub/folder/' );
+        $this->config->setRoutesFile( $this->routesFile );
+        $this->config->setSiteWebRoot( '/sub/folder/' );
         // filter
         $html = '<a href="server.php?controller=user&action=show&id=123">link</a>';
         $filter = $this->routing->getFilter();

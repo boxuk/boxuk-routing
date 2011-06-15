@@ -8,7 +8,7 @@ This library provides an easy way to add highly configurable routing support to 
 
 ## The Routing File
 
-The routing file is designed to be as easy to read as possible, and simply maps URL's on the left side, to the controller to handle them on the right.  Here's a simple example...
+The routing file is designed to be as easy to read as possible, and simply maps URLs on the left side, to the controller to handle them on the right.  Here's a simple example...
 
 <pre>
 /user/:num = user:show( id )
@@ -22,7 +22,7 @@ METHOD URL = CONTROLLER:ACTION( PARAMS )
 
 The method allows you to limit certain routes to certain HTTP request methods.  If the action is not specified then it defaults to _'index'_.
 
-### URL's
+### URLs
 
 The left hand side specifies the URL for the route.  You specify your dynamic parameters with a colon (eg. :num), by default these are...
 
@@ -67,7 +67,7 @@ This would then send URLs like /private/admin/home to the _admin_ controller, wi
 
 ## The Helper
 
-You are free to instantiate and set upp all the objects manually if you want, but the easiest way to do it is through the helper class provided (BoxUK\\Routing).  This is used in all the examples.
+You are free to instantiate and set up all the objects manually if you want, but the easiest way to do it is through the helper class provided (BoxUK\\Routing) by supplying a configuration object.  This is used in all the examples.
 
 ## The Router
 
@@ -77,8 +77,10 @@ The router forms the input part of the system.  You instantiate the router using
 $req = new BoxUK\Routing\Input\StandardRequest();
 $url = ‘/some/url’;
 
-$routing = new BoxUK\Routing();
-$routing->setRoutesFile( ‘/path/to/routes.txt’ );
+$config = new BoxUK\Routing\Config;
+$config->setRoutesFile( ‘/path/to/routes.txt’ );
+
+$routing = new BoxUK\Routing( $config );
 
 $router = $routing->getRouter();
 $router->process( $req, $url )
@@ -121,11 +123,11 @@ Forms actions can also be transformed by using hidden input fields to specify yo
 
 ## The Rewriter
 
-Internally, the output filter uses a rewriting object to transform raw URLs into clean urls.  We can fetch this from the helper or instantiate it ourselves to use it alone.  This will be handy if you would just like to rewrite URLs individually (when redirecting the user for example).
+Internally, the output filter uses a rewriting object to transform raw URLs into clean URLs.  We can fetch this from the helper or instantiate it ourselves to use it alone.  This will be handy if you would just like to rewrite URLs individually (when redirecting the user for example).
 
 ## Unit Tests
 
-The library is fully unit tested.  To run these tests just use ping or phpunit...
+The library is fully unit tested.  To run these tests just use phing or phpunit...
 
 <pre>
 phing test

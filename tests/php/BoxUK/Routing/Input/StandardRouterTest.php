@@ -4,6 +4,7 @@ namespace BoxUK\Routing\Input;
 
 require_once 'tests/php/bootstrap.php';
 
+use BoxUK\Routing\Configuration;
 use BoxUK\Routing\Specification;
 use BoxUK\Routing\Specification\StandardParser;
 
