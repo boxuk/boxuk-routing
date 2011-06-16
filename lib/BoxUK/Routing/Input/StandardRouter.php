@@ -2,7 +2,8 @@
 
 namespace BoxUK\Routing\Input;
 
-use BoxUK\Routing\Specification;
+use BoxUK\Routing\Specification,
+    BoxUK\Routing\Config;
 
 /**
  * @ScopeSingleton(implements="BoxUK\Routing\Input\Router")
@@ -15,6 +16,11 @@ use BoxUK\Routing\Specification;
 class StandardRouter implements Router {
 
     /**
+     * @var BoxUK\Routing\Config Library config
+     */
+    private $config;
+    
+    /**
      * @var array Route specifications
      */
     private $routeSpecs;
@@ -25,22 +31,14 @@ class StandardRouter implements Router {
     private $routeTypes;
 
     /**
-     * @var string $extension
-     */
-    private $extension;
-
-    /**
-     * @var string
-     */
-    private $siteWebRoot;
-
-    /**
      * Creates a new RequestRouter
      *
      */
-    public function __construct() {
+    public function __construct( Config $config ) {
 
+        $this->config = $config;
         $this->routeSpecs = array();
+        $this->routeTypes = array();
 
     }
 
@@ -58,39 +56,6 @@ class StandardRouter implements Router {
     }
 
     /**
-     * Set the extension to allow on URLs
-     *
-     * @param string $extension
-     */
-    public function setExtension( $extension ) {
-
-        $this->extension = $extension;
-
-    }
-
-    /**
-     * Set the optional web route to strip from incoming URLs
-     *
-     * @param string $siteWebRoot
-     */
-    public function setSiteWebRoot( $siteWebRoot ) {
-
-        $this->siteWebRoot = $siteWebRoot;
-
-    }
-
-    /**
-     * Extracts and returns the route specs from routes.
-     *
-     * @return array
-     */
-    public function getRouteSpecs() {
-
-        return $this->routeSpecs;
-
-    }
-
-    /**
      * Process route specs, updates the request object and returns if a match was made
      *
      * @param Request $request
@@ -102,18 +67,21 @@ class StandardRouter implements Router {
 
         if ( $url == '/index.php' ) { $url = '/'; }
 
-        if ( $this->siteWebRoot && strpos($url,$this->siteWebRoot) === 0 ) {
-            $url = substr( $url, strlen($this->siteWebRoot) );
+        $siteWebRoot = $this->config->getSiteWebRoot();
+        $extension = $this->config->getExtension();
+        
+        if ( $siteWebRoot && strpos($url,$siteWebRoot) === 0 ) {
+            $url = substr( $url, strlen($siteWebRoot) );
             if ( substr($url,0,1) != '/' ) {
                 $url = "/$url";
             }
         }
 
-        if ( $this->extension ) {
-            $url = preg_replace( "/^(.*)\.{$this->extension}$/", '$1', $url );
+        if ( $extension ) {
+            $url = preg_replace( "/^(.*)\.{$extension}$/", '$1', $url );
         }
 
-        foreach ( $this->getRouteSpecs() as $specification ) {
+        foreach ( $this->routeSpecs as $specification ) {
 
             if ( $specification->getMethod() && ($specification->getMethod() != $request->getMethod()) ) {
                 continue;

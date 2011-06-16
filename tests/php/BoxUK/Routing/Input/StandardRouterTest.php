@@ -4,26 +4,27 @@ namespace BoxUK\Routing\Input;
 
 require_once 'tests/php/bootstrap.php';
 
-use BoxUK\Routing\Configuration;
-use BoxUK\Routing\Specification;
-use BoxUK\Routing\Specification\StandardParser;
+use BoxUK\Routing\Configuration,
+    BoxUK\Routing\Specification,
+    BoxUK\Routing\Specification\StandardParser,
+    BoxUK\Routing\Config;
 
 class StandardRouterTest extends \PHPUnit_Framework_TestCase {
 
     public function testMatchedRouteSpecificationIsReturnedWhenMatched() {
-        $router = new MockRouter();
+        $router = new MockRouter( new Config() );
         $router->setRoutes(array( '/ = default()') );
         $this->assertInstanceOf( 'BoxUK\Routing\Specification', $router->process(new TestRequest(),'/') );
     }
     
     public function testFalseIsReturnedWhenNoRouteIsMatched() {
-        $router = new StandardRouter();
+        $router = new StandardRouter( new Config() );
         $this->assertFalse( $router->process(new TestRequest(),'') );
     }
 
     public function testRoutesPassedIntoTheInitMethodAreUsed() {
         $request = new TestRequest();
-        $router = new StandardRouter();
+        $router = new StandardRouter( new Config() );
         $parser = new StandardParser();
         $router->init(array( $parser->parseSpec('/user/:num = user:show( id )') ), Specification::$types );
         $router->process( $request, '/user/123' );
@@ -34,8 +35,9 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
 
     public function testExtensionToIgnoreCanBeSpecified() {
         $request = new TestRequest();
-        $router = new StandardRouter();
-        $router->setExtension( 'html' );
+        $config = new Config();
+        $config->setExtension( 'html' );
+        $router = new StandardRouter( $config );
         $parser = new StandardParser();
         $router->init(array( $parser->parseSpec('/user/:num = user:show( id )') ), Specification::$types );
         $router->process( $request, '/user/123.html' );
@@ -368,9 +370,10 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
 
     private function doTestRoute( $url, $route, $aParams, $request=null, $siteWebRoot=null ) {
         $request = $request ? $request : $this->getRequest();
-        $router = new MockRouter();
+        $config = new Config();
+        $config->setSiteWebRoot( $siteWebRoot ? $siteWebRoot : '' );
+        $router = new MockRouter( $config );
         $router->setRoutes( is_array($route) ? $route : array( $route ) );
-        $router->setSiteWebRoot( $siteWebRoot );
         $this->assertNotNull( $router->process($request,$url) );
         foreach ( $aParams as $name => $value ) {
             $this->assertEquals( $value, $request->getValue($name) );
@@ -384,8 +387,6 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
 }
 
 class MockRouter extends StandardRouter {
-
-    public function __construct() {}
 
     public function setRoutes( $aRoutes, $routeTypes=null ) {
         $parser = new StandardParser();

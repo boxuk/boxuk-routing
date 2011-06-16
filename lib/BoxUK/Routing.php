@@ -33,7 +33,9 @@ class Routing {
      * @param \BoxUK\Routing\Config $config
      */
     public function __construct( Config $config ) {
+        
         $this->config = $config;
+        
     }
     
     /**
@@ -45,9 +47,7 @@ class Routing {
         
         list( $routeSpecs, $routeTypes ) = $this->getRoutes();
 
-        $router = new \BoxUK\Routing\Input\StandardRouter();
-        $router->setExtension( $this->config->getExtension() );
-        $router->setSiteWebRoot( $this->config->getSiteWebRoot() );
+        $router = new \BoxUK\Routing\Input\StandardRouter( $this->config );
         $router->init( $routeSpecs, $routeTypes );
 
         return $router;
@@ -76,13 +76,10 @@ class Routing {
     
         list( $routeSpecs, $routeTypes ) = $this->getRoutes();
 
-        $rewriter = new StandardRewriter();
-        $rewriter->setExtension( $this->config->getExtension() );
-        $rewriter->init( 
-            $routeSpecs, 
-            $routeTypes, 
-            $this->config->getSiteDomain(), 
-            $this->config->getSiteWebRoot() 
+        $rewriter = new StandardRewriter( $this->config );
+        $rewriter->init(
+            $routeSpecs,
+            $routeTypes
         );
 
         return $rewriter;
@@ -102,13 +99,7 @@ class Routing {
             $routesFile = $this->config->getRoutesFile();
 
             if ( $routesFile ) {
-                $parser = new CachingParser();
-                
-                $cacheDir = $this->config->getCacheDirectory();
-                if($cacheDir) {
-                    $parser->setCacheDirectory($cacheDir);
-                }
-                
+                $parser = new CachingParser( $this->config );
                 $this->routes = $parser->parseFile( $routesFile );
             }
 

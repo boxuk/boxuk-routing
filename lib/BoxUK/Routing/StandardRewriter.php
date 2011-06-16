@@ -3,8 +3,6 @@
 namespace BoxUK\Routing;
 
 /**
- * @ScopeSingleton(implements="BoxUK\Routing\Rewriter")
- * 
  * This class uses route specifications to try and rewrite urls for them
  *
  * @copyright Copyright (c) 2010, Box UK
@@ -15,15 +13,10 @@ namespace BoxUK\Routing;
 class StandardRewriter implements Rewriter {
 
     /**
-     * @var string The site domain
+     * @var BoxUK\Routing\Config Library config
      */
-    private $siteDomain;
-
-    /**
-     * @var string The sites web root
-     */
-    private $siteWebRoot;
-
+    private $config;
+    
     /**
      * @var array Route specifications
      */
@@ -35,19 +28,14 @@ class StandardRewriter implements Rewriter {
     private $routeTypes;
 
     /**
-     * @var string URL extension
-     */
-    private $extension;
-
-    /**
      * Creates a new object for rewriting url based on routes
      *
      */
-    public function __construct() {
+    public function __construct( Config $config ) {
 
+        $this->config = $config;
         $this->routeSpecs = array();
-        $this->siteDomain = '';
-        $this->siteWebRoot = '/';
+        $this->routeTypes = array();
 
     }
 
@@ -59,23 +47,11 @@ class StandardRewriter implements Rewriter {
      * @param string $siteDomain
      * @param string $siteWebRoot
      */
-    public function init( array $routeSpecs, array $routeTypes, $siteDomain='', $siteWebRoot='/' ) {
+    public function init( array $routeSpecs, array $routeTypes ) {
 
         $this->routeSpecs = $routeSpecs;
         $this->routeTypes = $routeTypes;
-        $this->siteDomain = $siteDomain;
-        $this->siteWebRoot = $siteWebRoot;
-
-    }
-
-    /**
-     * Sets the file extention to add to URLs
-     *
-     * @param string $extension
-     */
-    public function setExtension( $extension ) {
         
-        $this->extension = $extension;
 
     }
 
@@ -124,8 +100,10 @@ class StandardRewriter implements Rewriter {
      */
     protected function domainMismatch( $url ) {
 
-        if ( $this->siteDomain && substr($url,0,4) == 'http' ) {
-            return strpos( $url, '://' . $this->siteDomain ) === false;
+        $siteDomain = $this->config->getSiteDomain();
+        
+        if ( $siteDomain && substr($url,0,4) == 'http' ) {
+            return strpos( $url, '://' . $siteDomain ) === false;
         }
 
         return false;
@@ -161,8 +139,8 @@ class StandardRewriter implements Rewriter {
 
                 if ( $matchedParams !== null ) {
                     return array(
-                        'http://' . $this->siteDomain,
-                        $this->siteWebRoot,
+                        'http://' . $this->config->getSiteDomain(),
+                        $this->config->getSiteWebRoot(),
                         $this->getUrl( $specification, $matchedParams ),
                         $this->getQueryString( $specification, $url, $matchedParams ),
                         $specification
@@ -189,6 +167,7 @@ class StandardRewriter implements Rewriter {
      */
     protected function getUrl( $oSpec, $matchedParams ) {
 
+        $extension = $this->config->getExtension();
         $route = $oSpec->getRoute();
         $index = 0;
 
@@ -205,9 +184,9 @@ class StandardRewriter implements Rewriter {
         if ( substr($route,0,1) == '/' ) {
             $route = substr( $route, 1 );
         }
-
-        if ( $this->extension ) {
-            $route = sprintf( '%s.%s', $route, $this->extension );
+        
+        if ( $extension ) {
+            $route = sprintf( '%s.%s', $route, $extension );
         }
 
         return $route;

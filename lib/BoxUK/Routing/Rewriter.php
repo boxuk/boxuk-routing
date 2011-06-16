@@ -13,13 +13,6 @@ namespace BoxUK\Routing;
 interface Rewriter {
 
     /**
-     * Set the extension to use (eg. 'html') to add to the end of URLs.
-     *
-     * @param string $extension
-     */
-    public function setExtension( $extension );
-
-    /**
      * Tries to rewrite the specified URL using configured routes, optionally
      * including the domain.  The new URL is returned if it is rewritten, or
      * the old url is returned otherwise.

@@ -25,19 +25,5 @@ interface Router {
      * @return Specification
      */
     public function process( Request $request, $url );
-
-    /**
-     * Returns an array of configured route specs
-     *
-     * @return array
-     */
-    public function getRouteSpecs();
-
-    /**
-     * Sets an extension URLs are allowed to have and still be matched
-     *
-     * @param string $extension
-     */
-    public function setExtension( $extension );
     
 }

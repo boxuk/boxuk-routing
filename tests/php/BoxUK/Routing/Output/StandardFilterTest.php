@@ -2,11 +2,12 @@
 
 namespace BoxUK\Routing\Output;
 
-use BoxUK\Routing\Input\TestRequest;
-use BoxUK\Routing\StandardRewriter;
-use BoxUK\Routing\RouteSpecification;
-use BoxUK\Routing\Specification;
-use BoxUK\Routing\Specification\StandardParser;
+use BoxUK\Routing\Input\TestRequest,
+    BoxUK\Routing\StandardRewriter,
+    BoxUK\Routing\RouteSpecification,
+    BoxUK\Routing\Specification,
+    BoxUK\Routing\Specification\StandardParser,
+    BoxUK\Routing\Config;
 
 require_once 'tests/php/bootstrap.php';
 
@@ -167,8 +168,10 @@ EOT;
         foreach ( $specs as $spec ) {
             $routeSpecs[] = $parser->parseSpec( $spec );
         }
-        $rewriter = new StandardRewriter();
-        $rewriter->init( $routeSpecs, Specification::$types, $siteDomain, $siteWebRoot );
+        $config = new Config();
+        $config->setSiteDomain( $siteDomain );
+        $rewriter = new StandardRewriter( $config );
+        $rewriter->init( $routeSpecs, Specification::$types );
         return new StandardFilter(
             $rewriter,
             $oReq ? $oReq : new TestRequest()

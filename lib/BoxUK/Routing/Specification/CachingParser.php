@@ -2,6 +2,8 @@
 
 namespace BoxUK\Routing\Specification;
 
+use BoxUK\Routing\Config;
+
 /**
  * Handles caching of parsed route files
  * 
@@ -15,32 +17,40 @@ class CachingParser extends StandardParser {
     /**
      * Path to a directory under which cache files will be stored
      * 
-     * @var string
+     * @var BoxUK\Routing\Config
      */
-    private $cacheDirectory;
-
+    private $config;
+    
     /**
-     * @return string
+     * Create a new caching parser object
+     * 
+     * @param BoxUK\Routing\Config $config Library configuration
      */
-    public function getCacheDirectory() {
-        return $this->cacheDirectory;
+    public function __construct( Config $config ) {
+        
+        $this->config = $config;
+        
     }
 
     /**
-     * @param string $cacheDirectory 
+     * Returns the configured cache directory if set, or the system default
      * 
-     * @throws \InvalidArgumentException
+     * @return string
      */
-    public function setCacheDirectory($cacheDirectory) {
-        if( ! is_string( $cacheDirectory ) ) {
-            throw new \InvalidArgumentException('Expected a string');
+    protected function getCacheDirectory() {
+        
+        $cacheDir = $this->config->getCacheDirectory();
+        
+        if ( !$cacheDir ) {
+            $cacheDir = sys_get_temp_dir();
         }
         
-        if( ! is_dir( $cacheDirectory ) || ! is_writeable( $cacheDirectory ) ) {
-            throw new \InvalidArgumentException('Cache directory must be a writeable directory');
+        if ( !is_dir($cacheDir) || !is_writeable($cacheDir) ) {
+            throw new \InvalidArgumentException( 'Cache directory must be a writeable directory' );
         }
+
+        return $cacheDir;
         
-        $this->cacheDirectory = $cacheDirectory;
     }
 
     /**
@@ -54,12 +64,7 @@ class CachingParser extends StandardParser {
     public function parseFile( $path ) {
         
         $cacheFile = crc32( $path );
-        $cacheDir = $this->cacheDirectory;
-        
-        if(! $cacheDir) {
-            $cacheDir = sys_get_temp_dir();
-        }
-        
+        $cacheDir = $this->getCacheDirectory();
         $cachePath = sprintf( '%s/%s.cache', $cacheDir, $cacheFile );
 
         if ( file_exists($cachePath) && (filemtime($path) <= filemtime($cachePath)) ) {

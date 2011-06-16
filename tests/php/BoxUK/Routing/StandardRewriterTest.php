@@ -2,7 +2,8 @@
 
 namespace BoxUK\Routing;
 
-use BoxUK\Routing\Specification\StandardParser;
+use BoxUK\Routing\Specification\StandardParser,
+    BoxUK\Routing\Config;
 
 require_once 'tests/php/bootstrap.php';
 
@@ -230,20 +231,24 @@ class StandardRewriterTest extends \PHPUnit_Framework_TestCase {
             $types = Specification::$types;
         }
 
+        $config = new Config();
+        $config->setSiteWebRoot( $webRoot );
+        $config->setSiteDomain( $domain );
+        
+        if ( $extension ) {
+            $config->setExtension( $extension );
+        }
+        
         $routeSpecs = array();
         $parser = new StandardParser();
-        $rewriter = new StandardRewriter();
+        $rewriter = new StandardRewriter( $config );
         $includeDomain = ( $domain );
-
-        if ( $extension ) {
-            $rewriter->setExtension( $extension );
-        }
 
         foreach ( $specs as $spec ) {
             $routeSpecs[] = $parser->parseSpec( $spec );
         }
 
-        $rewriter->init( $routeSpecs, $types, $domain, $webRoot );
+        $rewriter->init( $routeSpecs, $types );
 
         foreach ( $asserts as $url => $expected ) {
             $this->assertEquals( $expected, $rewriter->rewrite($url,$includeDomain) );
