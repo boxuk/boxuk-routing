@@ -76,10 +76,10 @@ The router forms the input part of the system.  You instantiate the router using
 ```php
 <?php
 $req = new BoxUK\Routing\Input\StandardRequest();
-$url = ‘/some/url’;
+$url = '/some/url';
 
 $config = new BoxUK\Routing\Config;
-$config->setRoutesFile( ‘/path/to/routes.txt’ );
+$config->setRoutesFile( '/path/to/routes.txt' );
 
 $routing = new BoxUK\Routing( $config );
 
@@ -97,7 +97,7 @@ The output filter allows us to transform our output using the routing informatio
 
 ```php
 <?php
-$html = ‘&lt;a href=”server.php?controller=cars&action=show&brand=ford”&gt;Show Ford&lt;/a&gt;’;
+$html = '&lt;a href="server.php?controller=cars&action=show&brand=ford"&gt;Show Ford&lt;/a&gt;';
 
 $filter = $routing->getFilter();
 $filter->process( $html );
