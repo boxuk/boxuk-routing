@@ -105,9 +105,9 @@ $filter->process( $html );
 
 Given the route _/cars/:word = cars:show( brand )_, the *$html* variable will be transformed to...
 
-<pre>
-&lt;a href="/cars/ford"&gt;Show Ford&lt;/a&gt;
-</pre>
+```html
+<a href="/cars/ford">Show Ford</a>
+```
 
 This provides a flexible, unobtrusive way to handle generating your clean URLs.
 
