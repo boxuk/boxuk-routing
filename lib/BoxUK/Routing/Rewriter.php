@@ -18,8 +18,8 @@ interface Rewriter {
      * the old url is returned otherwise.
      *
      * @param string $url
-     * @param bool $includeDomain (false)
-     *
+     * @param bool $includeDomain
+     * 
      * @return string
      */
     public function rewrite( $url, $includeDomain=false );
@@ -35,7 +35,7 @@ interface Rewriter {
      *     '?foo=bar#fragment',     // query string
      *     $specification           // route spec matched
      * )
-     *
+     * 
      * @param string $url
      *
      * @return array

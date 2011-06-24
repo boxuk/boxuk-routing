@@ -30,7 +30,7 @@ class StandardParser implements Parser {
      * Parses a file and returns any route specifications found
      * 
      * @param string $path
-     *
+     * 
      * @return array ( routes, types )
      */
     public function parseFile( $path ) {
@@ -62,19 +62,9 @@ class StandardParser implements Parser {
 
                 // start/end of controller block
                 case '[':
-                    if ( preg_match('/\[(\w+|\*)(:.+)?\]/',$line,$matches) ) {
-                        $value = $matches[ 1 ];
-                        if ( $value == '*' ) {
-                            $controller = null;
-                            $baseurl = null;
-                        }
-                        else {
-                            $controller = $value;
-                            if ( isset($matches[2]) ) {
-                                $baseurl = substr( $matches[2], 1 );
-                            }
-                        }
-                    }
+                    list( $controller, $baseurl ) = $this->parseControllerBlockStart(
+                        $line, $controller, $baseurl
+                    );
                     break;
 
                 // try and parse spec line
@@ -93,12 +83,46 @@ class StandardParser implements Parser {
         return array( $routeSpecs, $routeTypes );
         
     }
+    
+    /**
+     * Parse the start of a controller block, and return any modifications to
+     * the controller and baseurl
+     * 
+     * @param string $line
+     * @param string $controller
+     * @param string $baseurl
+     * 
+     * @return array
+     */
+    protected function parseControllerBlockStart( $line, $controller, $baseurl ) {
+        
+        if ( preg_match('/\[(\w+|\*)(:.+)?\]/',$line,$matches) ) {
+            
+            $value = $matches[ 1 ];
+            
+            if ( $value == '*' ) {
+                $controller = null;
+                $baseurl = null;
+            }
+            
+            else {
+                $controller = $value;
+                if ( isset($matches[2]) ) {
+                    $baseurl = substr( $matches[2], 1 );
+                }
+            }
+            
+        }
+        
+        return array( $controller, $baseurl );
+
+    }
 
     /**
      * Parse a route spec type and return the name and regexp
      *
-     * @param string $routeType
-     *
+     * @param string $routeType eg.':foo = \d+'
+     * 
      * @return array
      */
     protected function parseType( $routeType ) {
@@ -113,8 +137,8 @@ class StandardParser implements Parser {
      * Tries to parse a route specification into an object, return null if its
      * not a valid route spec.
      * 
-     * @param string $specText
-     *
+     * @param string $specText eg. '/foo/:num = ctrl()'
+     * 
      * @return Specification
      */
     public function parseSpec( $specText ) {
@@ -157,8 +181,10 @@ class StandardParser implements Parser {
     /**
      * Parse a spec inside a controller block
      *
+     * @param string $controller
      * @param string $specText
-     *
+     * @param string $baseurl
+     * 
      * @return Specification
      */
     protected function parseControllerSpec( $controller, $specText, $baseurl ) {

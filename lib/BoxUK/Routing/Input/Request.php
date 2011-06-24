@@ -39,8 +39,8 @@ interface Request {
      * Returns the value of a request variable, $default if it hasn't been specified
      *
      * @param string $name
-     * @param mixed $default
-     *
+     * @param string $default
+     * 
      * @return string
      */
     public function getValue( $name, $default=null );

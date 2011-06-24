@@ -48,32 +48,27 @@ class Specification {
     );
 
     /**
-     * The route description
-     * @var string
+     * @var string The route description
      */
     private $route;
 
     /**
-     * Controller to handle route
-     * @var string
+     * @var string Controller to handle route
      */
     private $controller;
 
     /**
-     * Default action for the route
-     * @var string
+     * @var string Default action for the route
      */
     private $action;
 
     /**
-     * Array of parameters for the route
-     * @var array
+     * @var array Array of parameters for the route
      */
     private $params;
 
     /**
-     * The request method for the route (blank means all)
-     * @var string
+     * @var string The request method for the route (blank means all)
      */
     private $method;
 
@@ -83,10 +78,9 @@ class Specification {
      * @param string $route
      * @param string $controller
      * @param string $action
-     * @param array $params
-     * @param string $method
+     * @param string $method BoxUK\Input\Request::METHOD_*
      */
-    public function __construct( $route, $controller, $action, $params, $method=self::DEFAULT_METHOD ) {
+    public function __construct( $route, $controller, $action, array $params, $method=self::DEFAULT_METHOD ) {
         
         $this->route = $route;
         $this->controller = $controller;

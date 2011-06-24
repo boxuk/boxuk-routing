@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<project name="boxuk-routing" basedir="." default="test">
+<project name="boxuk-routing" basedir="." default="test-php">
 
     <target name="init">
-        <mkdir dir="log" />
+        <mkdir dir="logs" />
     </target>
 
-    <target name="test" depends="init">
-        <exec command="phpunit --testdox --log-junit log/phpunit.xml tests/php" checkReturn="true" passthru="true" />
+    <target name="test-php" depends="init">
+        <exec command="phpunit --testdox --log-junit=logs/phpunit-log.xml tests/php" checkReturn="true" passthru="true" />
     </target>
+    
+    <target name="test-cs" depends="init">
+        <exec command="phpcs -n lib/BoxUK --standard=BoxUK > logs/checkstyle.xml"
+              checkReturn="true"
+              passthru="true" />
+    </target>
+
+    <target name="test" depends="test-php,test-cs"></target>
 
     <target name="coverage" depends="init">
         <delete dir="log/coverage" />
         <exec command="phpunit --coverage-html=log/coverage tests/php/" passthru="true" checkReturn="true" />
+    </target>
+    
+    <target name="pear-package">
+        <exec command="php package.php"
+              passthru="true"
+              checkReturn="true" />
+        <exec command="pear package lib/package.xml"
+              checkReturn="true"
+              passthru="true" />
     </target>
 
 </project>

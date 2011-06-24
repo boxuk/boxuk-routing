@@ -15,8 +15,6 @@ use BoxUK\Routing\Config;
 class CachingParser extends StandardParser {
     
     /**
-     * Path to a directory under which cache files will be stored
-     * 
      * @var BoxUK\Routing\Config
      */
     private $config;
@@ -24,7 +22,6 @@ class CachingParser extends StandardParser {
     /**
      * Create a new caching parser object
      * 
-     * @param BoxUK\Routing\Config $config Library configuration
      */
     public function __construct( Config $config ) {
         
@@ -34,6 +31,8 @@ class CachingParser extends StandardParser {
 
     /**
      * Returns the configured cache directory if set, or the system default
+     * 
+     * @throws InvalidArgumentException
      * 
      * @return string
      */
@@ -58,7 +57,7 @@ class CachingParser extends StandardParser {
      * file is updated.
      *
      * @param string $path
-     *
+     * 
      * @return array
      */
     public function parseFile( $path ) {

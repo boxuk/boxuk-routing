@@ -30,7 +30,6 @@ class Routing {
     /**
      * Creates a new instance
      * 
-     * @param \BoxUK\Routing\Config $config
      */
     public function __construct( Config $config ) {
         

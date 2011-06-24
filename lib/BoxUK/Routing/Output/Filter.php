@@ -16,7 +16,7 @@ interface Filter {
     /**
      * Sets the name of the php script that acts as the front controller
      *
-     * @param string $name
+     * @param string $name eg. 'server.php'
      */
     public function setFrontController( $name );
 

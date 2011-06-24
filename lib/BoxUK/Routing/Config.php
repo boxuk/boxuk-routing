@@ -38,11 +38,14 @@ class Config {
     private $cacheDirectory;
     
     /**
-     * @param string $routesFile
+     * Sets the routes file to parse routes from
+     * 
+     * @param string $routesFile Path to routes file
      * 
      * @throws \InvalidArgumentException
      */
     public function setRoutesFile( $routesFile ) {
+        
         if( ! is_string( $routesFile ) ) {
             throw new \InvalidArgumentException('Expected a string');
         }
@@ -52,21 +55,29 @@ class Config {
         }
         
         $this->routesFile = $routesFile;
+        
     }
     
     /**
+     * Returns the routes file that has been set, or null if it hasn't
+     * 
      * @return string
      */
     public function getRoutesFile() {
+        
         return $this->routesFile;
+        
     }
     
     /**
-     * @param string $extension
+     * Set the URL extension to use 
+     * 
+     * @param string $extension eg. '.html'
      * 
      * @throws \InvalidArgumentException
      */
     public function setExtension( $extension ) {
+        
         if( ! is_string( $extension ) ) {
             throw new \InvalidArgumentException('Expected a string');
         }
@@ -75,18 +86,26 @@ class Config {
 
     }
 
+    /**
+     * Return the configured URL extension, or null
+     * 
+     * @return string
+     */
     public function getExtension() {
+        
         return $this->extension;
+        
     }
 
     /**
      * Sets the site domain to use
-     *
-     * @param string $siteDomain
      * 
+     * @param string $siteDomain eg. mydomain.com
+     *
      * @throws \InvalidArgumentException
      */
     public function setSiteDomain( $siteDomain ) {
+        
         if( ! is_string( $siteDomain ) ) {
             throw new \InvalidArgumentException('Expected a string');
         }
@@ -96,18 +115,25 @@ class Config {
     }
 
     /**
+     * Returns the domain, or null if not set
+     * 
      * @return string
      */
     public function getSiteDomain() {
+        
         return $this->siteDomain;
+        
     }
 
     /**
-     * @param string $siteWebRoot
+     * Set the web root for the application
+     * 
+     * @param string $siteWebRoot eg. /base/path/
      * 
      * @throws \InvalidArgumentException
      */
     public function setSiteWebRoot( $siteWebRoot ) {
+        
         if( ! is_string( $siteWebRoot ) ) {
             throw new \InvalidArgumentException('Expected a string');
         }
@@ -117,18 +143,25 @@ class Config {
     }
     
     /**
+     * Return the configured web root, or null
+     * 
      * @return string
      */
     public function getSiteWebRoot() {
+        
         return $this->siteWebRoot;
+        
     }
     
     /**
-     * @param string $cacheDirectory
+     * Sets the directory to store cached routes
+     * 
+     * @param string $cacheDirectory Path to cache directory
      * 
      * @throws \InvalidArgumentException
      */
     public function setCacheDirectory( $cacheDirectory ) {
+        
         if( ! is_string( $cacheDirectory ) ) {
             throw new \InvalidArgumentException('Expected a string');
         }
@@ -141,10 +174,14 @@ class Config {
     }
     
     /**
+     * Returns the cache directory if set, or null otherwise
+     * 
      * @return string
      */
     public function getCacheDirectory() {
+        
         return $this->cacheDirectory;
+        
     }
     
 }

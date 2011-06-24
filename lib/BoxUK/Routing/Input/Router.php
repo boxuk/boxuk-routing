@@ -19,9 +19,8 @@ interface Router {
      * Runs the router on any configured route specifications.  Returns the matched
      * route object if there was one, false otherwise.
      *
-     * @param Request $request
      * @param string $url
-     *
+     * 
      * @return Specification
      */
     public function process( Request $request, $url );

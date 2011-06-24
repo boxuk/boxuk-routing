@@ -16,7 +16,7 @@ interface Parser {
      * Parses a routes file to extract all the route specifications
      *
      * @param string $path
-     *
+     * 
      * @return array
      */
     public function parseFile( $path );
@@ -24,8 +24,8 @@ interface Parser {
     /**
      * Parse a single route specification
      *
-     * @param string $spec
-     *
+     * @param string $spec eg. '/foo/:num = ctrl()'
+     * 
      * @return BoxUK\Routing\Specification
      */
     public function parseSpec( $spec );

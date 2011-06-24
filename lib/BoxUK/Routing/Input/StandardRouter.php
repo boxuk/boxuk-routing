@@ -45,8 +45,6 @@ class StandardRouter implements Router {
     /**
      * Init the router with some routes
      *
-     * @param array $routeSpecs
-     * @param array $routeTypes
      */
     public function init( array $routeSpecs, array $routeTypes ) {
 
@@ -58,9 +56,8 @@ class StandardRouter implements Router {
     /**
      * Process route specs, updates the request object and returns if a match was made
      *
-     * @param Request $request
      * @param string $url
-     *
+     * 
      * @return Specification
      */
     public function process( Request $request, $url ) {
@@ -104,9 +101,6 @@ class StandardRouter implements Router {
     /**
      * Process a single route spec and updates the request object
      *
-     * @param Request $request
-     * @param Specification $specification
-     * @param array $matches
      */
     protected function processRouteSpec( Request $request, Specification $specification, array $matches ) {
 
@@ -133,7 +127,8 @@ class StandardRouter implements Router {
     /**
      * Replaces shortcuts in a route (eg. ':num' and ':word') with their regexp
      *
-     * @param string $route
+     * @param string $route eg. '/foo/:num'
+     * 
      * @return string
      */
     protected function buildRegExp( $route ) {

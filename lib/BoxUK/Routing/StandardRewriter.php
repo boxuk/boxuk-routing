@@ -42,10 +42,6 @@ class StandardRewriter implements Rewriter {
     /**
      * Init with some routes and types
      * 
-     * @param array $routeSpecs
-     * @param array $routeTypes
-     * @param string $siteDomain
-     * @param string $siteWebRoot
      */
     public function init( array $routeSpecs, array $routeTypes ) {
 
@@ -60,11 +56,11 @@ class StandardRewriter implements Rewriter {
      * are matched the the original url is returned.
      *
      * @param string $url
-     * @param bool $includeDomain (false)
-     *
+     * @param bool $includeDomain
+     * 
      * @return string
      */
-    public function rewrite( $url, $includeDomain = false ) {
+    public function rewrite( $url, $includeDomain=false ) {
 
         if ( !$this->domainMismatch($url) ) {
 
@@ -95,7 +91,7 @@ class StandardRewriter implements Rewriter {
      * has been specified in the URL.
      *
      * @param string $url
-     *
+     * 
      * @return bool
      */
     protected function domainMismatch( $url ) {
@@ -122,7 +118,7 @@ class StandardRewriter implements Rewriter {
      * )
      *
      * If it doesn't work, returns null.
-     *
+     * 
      * @param string $url
      *
      * @return array
@@ -160,12 +156,9 @@ class StandardRewriter implements Rewriter {
      * are are added).  This should also NOT include a slash prefix as this
      * will be handled by the web root before it.
      *
-     * @param Specification $oSpec
-     * @param array $matchedParams
-     *
      * @return string
      */
-    protected function getUrl( $oSpec, $matchedParams ) {
+    protected function getUrl( Specification $oSpec, array $matchedParams ) {
 
         $extension = $this->config->getExtension();
         $route = $oSpec->getRoute();
@@ -198,12 +191,11 @@ class StandardRewriter implements Rewriter {
      * url being processed.  returns null if the matching failed, and an array
      * of matched parameters (possibly empty).
      *
-     * @param Specification $specification
      * @param string $url
-     *
+     * 
      * @return array
      */
-    protected function getMatchedParams( $specification, $url ) {
+    protected function getMatchedParams( Specification $specification, $url ) {
 
         $matchedParams = array();
         $params = $specification->getParameters();
@@ -248,9 +240,10 @@ class StandardRewriter implements Rewriter {
      * default if one was specified.  the type can possibly be blank where it
      * is assumed to match.
      *
-     * @param string $type
-     * @param mixed $value
-     *
+     * @param string $type eg. Specification::NUM
+     * @param string $value
+     * @param string $default
+     * 
      * @return boolean
      */
     protected function paramMatches( $type, $value, $default ) {
@@ -268,19 +261,18 @@ class StandardRewriter implements Rewriter {
     /**
      * Returns the parameters to match for a route as name => type pairs.
      *
-     * @param Specification $specification
-     *
      * @return array
      */
-    protected function getParamsToMatch( $specification ) {
+    protected function getParamsToMatch( Specification $specification ) {
 
         $params = $specification->getParameters();
         $paramsToMatch = array(); // name => value
         $matchNames = array_keys( $params );
+        $totalNames = count( $matchNames );
 
         preg_match_all( '/:(\w+)/', $specification->getRoute(), $matchTypes );
 
-        for ( $i=0; $i<count($matchNames); $i++ ) {
+        for ( $i=0; $i<$totalNames; $i++ ) {
             $paramsToMatch[ $matchNames[$i] ] = isset( $matchTypes[ 1 ][ $i ] )
                 ? $matchTypes[ 1 ][ $i ]
                 : '';
@@ -299,13 +291,11 @@ class StandardRewriter implements Rewriter {
      * include any of the arguments _specified or implied_ by the new url.
      * This also preserves any fragment defined.
      *
-     * @param Specification $specification
      * @param string $url
-     * @param array $matchedParams
-     *
+     * 
      * @return string
      */
-    protected function getQueryString( $specification, $url, $matchedParams ) {
+    protected function getQueryString( Specification $specification, $url, array $matchedParams ) {
 
         $newQueryString = '';
 

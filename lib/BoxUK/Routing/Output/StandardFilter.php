@@ -31,7 +31,6 @@ class StandardFilter implements Filter {
     /**
      * Creates a new filter
      * 
-     * @param Rewriter $rewriter
      */
     public function __construct( Rewriter $rewriter ) {
 
@@ -43,7 +42,7 @@ class StandardFilter implements Filter {
     /**
      * Sets the name of the php script that acts as the front controller
      *
-     * @param string $script
+     * @param string $name eg. 'server.php'
      */
     public function setFrontController( $name ) {
 
@@ -99,8 +98,6 @@ class StandardFilter implements Filter {
     /**
      * Looks through a form to try and use hidden inputs to rewrite the form action
      * 
-     * @param array $matches
-     *
      * @return string
      */
     public function replaceForm( array $matches ) {
@@ -150,8 +147,6 @@ class StandardFilter implements Filter {
     /**
      * Returns a URL built from the output of getHiddenInputs()
      *
-     * @param array $inputs
-     *
      * @return string
      */
     protected function getUrlFromInputs( array $inputs ) {
@@ -183,7 +178,7 @@ class StandardFilter implements Filter {
      * )
      *
      * @param string $form
-     *
+     * 
      * @return array
      */
     protected function getHiddenInputs( $form ) {
@@ -221,8 +216,6 @@ class StandardFilter implements Filter {
      * Checks the defined route specs to see if this url can be re-written
      * to match one of them.
      * 
-     * @param array $matches
-     *
      * @return string
      */
     public function replaceAttribute( array $matches ) {
@@ -240,8 +233,6 @@ class StandardFilter implements Filter {
     /**
      * Replaces route urls in elements (eg. <elem>url</elem>)
      * 
-     * @param array $matches
-     *
      * @return string
      */
     public function replaceElement( array $matches ) {
