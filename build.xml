@@ -11,7 +11,7 @@
     </target>
     
     <target name="test-cs" depends="init">
-        <exec command="phpcs -n lib/BoxUK --standard=BoxUK > logs/checkstyle.xml"
+        <exec command="phpcs -n lib/BoxUK --report=checkstyle --standard=BoxUK > logs/checkstyle.xml"
               checkReturn="true"
               passthru="true" />
     </target>
