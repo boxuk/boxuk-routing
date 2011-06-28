@@ -15,6 +15,7 @@
 define( 'VERSION', '1.1.0' );
 
 require_once( 'PEAR/PackageFileManager2.php' );
+require_once( 'PEAR/PackageFileManager/File.php' );
 
 $packagexml = new PEAR_PackageFileManager2;
 $packagexml->setOptions(array(
@@ -25,7 +26,7 @@ $packagexml->setOptions(array(
 $packagexml->setPackage( 'routing' );
 $packagexml->setSummary( 'Routing Library' );
 $packagexml->setDescription( '-' );
-$packagexml->setChannel( 'pear.boxuk.com' );
+$packagexml->setChannel( 'pear.boxuk.net' );
 $packagexml->setAPIVersion( VERSION );
 $packagexml->setReleaseVersion( VERSION );
 $packagexml->setReleaseStability( 'stable' );
