@@ -58,8 +58,8 @@ You can also specify a base path for a controller block which means all routes h
 
 <pre>
 [admin:/private/admin]
-/:word = admin( action )
-/ = admin()
+/:word = ( action )
+/ = ()
 [*]
 </pre>
 
@@ -97,7 +97,7 @@ The output filter allows us to transform our output using the routing informatio
 
 ```php
 <?php
-$html = '&lt;a href="server.php?controller=cars&action=show&brand=ford"&gt;Show Ford&lt;/a&gt;';
+$html = '<a href="server.php?controller=cars&action=show&brand=ford">Show Ford</a>';
 
 $filter = $routing->getFilter();
 $filter->process( $html );
