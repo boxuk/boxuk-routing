@@ -79,7 +79,7 @@ class StandardParserTest extends \PHPUnit_Framework_TestCase {
     public function testExtraTypesSpecifiedInSpecFileAreReturnedWhenParsingFile() {
         $parser = new StandardParser();
         list( $routeSpecs, $routeTypes ) = $parser->parseFile( __DIR__ . '/../../../../resources/routes-types.spec');
-        $this->assertEquals( $routeTypes['userid'], '\d\w+' );
+        $this->assertEquals( $routeTypes['userid'], '(\d\w+)' );
     }
 
     public function testRoutesInsideControllerBlocksDontNeedToSpecifyTheController() {

@@ -56,7 +56,7 @@ class StandardParser implements Parser {
                 case ':':
                     list( $name, $regexp ) = $this->parseType( $line );
                     if ( $name && $regexp ) {
-                        $routeTypes[ $name ] = $regexp;
+                        $routeTypes[ $name ] = "($regexp)";
                     }
                     break;
 

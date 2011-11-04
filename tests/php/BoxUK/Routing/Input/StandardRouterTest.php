@@ -368,6 +368,16 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+    public function testCustomTypesAreParsedIntoParametersInTheRequestObject() {
+        $parser = new StandardParser();
+        list( $routes, $types ) = $parser->parseFile( 'tests/resources/routes-types.spec' );
+        $router = new MockRouter( new Config() );
+        $router->init( $routes, $types );
+        $request = new TestRequest();
+        $router->process( $request, '/user/3abc' );
+        $this->assertEquals( '3abc', $request->getValue('id') );
+    }
+
     private function doTestRoute( $url, $route, $aParams, $request=null, $siteWebRoot=null ) {
         $request = $request ? $request : $this->getRequest();
         $config = new Config();
