@@ -32,7 +32,7 @@ $packagexml->setOptions(array(
         
 $packagexml->setPackage( 'routing' );
 $packagexml->setSummary( 'Routing Library' );
-$packagexml->setDescription( '-' );
+$packagexml->setDescription( 'Routing library for PHP front controller based applications' );
 $packagexml->setChannel( BOXUK_PEAR_CHANNEL );
 $packagexml->setAPIVersion( VERSION );
 $packagexml->setReleaseVersion( VERSION );
