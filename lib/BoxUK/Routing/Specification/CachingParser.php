@@ -32,7 +32,7 @@ class CachingParser extends StandardParser {
     /**
      * Returns the configured cache directory if set, or the system default
      * 
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * 
      * @return string
      */
