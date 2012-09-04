@@ -7,7 +7,7 @@
     </target>
 
     <target name="test-php" depends="init">
-        <exec command="phpunit --testdox --log-junit=logs/phpunit-log.xml tests/php" checkReturn="true" passthru="true" />
+        <exec command="phpunit --coverage-clover logs/clover.xml --testdox --log-junit=logs/phpunit-log.xml tests/php" checkReturn="true" passthru="true" />
     </target>
     
     <target name="test-cs" depends="init">
