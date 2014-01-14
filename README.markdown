@@ -65,6 +65,16 @@ You can also specify a base path for a controller block which means all routes h
 
 This would then send URLs like /private/admin/home to the _admin_ controller, with the action _home_.
 
+## Default Values
+
+You can also have parameters with default, or static, values.
+
+<pre>
+/foo = bar( id:1 )
+</pre>
+
+This route will always pass a parameter called _id_ of value _1_.
+
 ## The Helper
 
 You are free to instantiate and set up all the objects manually if you want, but the easiest way to do it is through the helper class provided (BoxUK\\Routing) by supplying a configuration object.  This is used in all the examples.
