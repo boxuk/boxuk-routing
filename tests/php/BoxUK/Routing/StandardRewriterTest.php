@@ -136,7 +136,7 @@ class StandardRewriterTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    public function testParameterWithCommer() {
+    public function testParameterWithComma() {
         $this->doTest(
             array( 'my/messages/:word = usermessage( action )' ),
             array( 'server.php?controller=usermessage&action=multipleMarkAsNotTrash&id=6,52&postAction=sent' => '/my/messages/multipleMarkAsNotTrash?id=6,52&postAction=sent' )
@@ -150,12 +150,20 @@ class StandardRewriterTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    public function testPlussesCanBeIncludedAnyAnyParam() {
+    public function testPlussesCanBeIncludedInAnyParam() {
         $this->doTest(
             array( '/group/:num/:any = group:show( id, title )' ),
             array( 'server.php?controller=group&action=show&id=123&title=My+Group.htm' => '/group/123/My+Group.htm' )
         );
     }
+
+    public function testUnderscoresCanBeIncludedInAnyParam() {
+        $this->doTest(
+            array( '/reset/:any/:word = reset( username, token )' ),
+            array( 'server.php?controller=reset&username=steve_a&token=a1b2c3d4e5f6' => '/reset/steve_a/a1b2c3d4e5f6' )
+        );
+    }
+
 
     public function testRewriteUrlWithUrlInParameter() {
         $this->doTest(
