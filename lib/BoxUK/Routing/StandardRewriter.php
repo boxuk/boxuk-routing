@@ -203,7 +203,7 @@ class StandardRewriter implements Rewriter {
 
         foreach ( $paramsToMatch as $param => $type ) {
 
-            $regexp = '/[\?&;]' . $param . '=([a-z0-9%,-.+]+)/i';
+            $regexp = '/[\?&;]' . $param . '=([a-z0-9%,-_.+]+)/i';
 
             if ( preg_match($regexp,$url,$matches) ) {
 
